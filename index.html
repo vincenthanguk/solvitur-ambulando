@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Solvitur Ambulando - It is solved by walking</title>
+    <link
+      rel="stylesheet"
+      href="style.css
+	"
+    />
+    <script defer src="script.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Solvitur Ambulando - It is Solved by Walking</h1>
+      <div class="content">
+        <div class="leftmenu-container">
+          
+            <form class="form hidden">
+              <div class="form__row--select">
+                <select class="form__input form__input--type">
+                  <option value="" disabled selected hidden>
+                    Choose the Type of Walk
+                  </option>
+                  <option value="Walking Meditation">Walking Meditation</option>
+                  <option value="Stroll">Stroll</option>
+                  <option value="Regular Walk">Regular Walk</option>
+                  <option value="Brisk Walk">Brisk Walk</option>
+                  <option value="Fierce March">Fierce March</option>
+                </select>
+              </div>
+              <div class="form__row">
+                <label class="form__label">Distance:</label>
+                <input
+                  class="form__input form__input--distance"
+                  placeholder="km"
+                />
+                <label class="form__label">Duration:</label>
+                <input
+                  class="form__input form__input--duration"
+                  placeholder="min"
+                />
+              </div>
+              <div class="form__row--thoughts">
+                <textarea
+                  class="form__input form__input--thoughts"
+                  maxlength="150"
+                  placeholder="What was going through your mind during your walk?"
+                  rows="3"
+                ></textarea>
+                <button class="form__btn">OK</button>
+              </div>
+            </form>
+            <ul class="walks"></ul>
+            <!-- <li class="walk" data-id="1234567890">
+              <h2 class="walk-title">Walk on Date</h2>
+              <div class="walk__details">
+                <span class="walk__icon">🥾</span>
+                <span class="walk__value">10</span>
+                <span class="walk__unit">km</span>
+              </div>
+              <div class="walk__details">
+                <span class="walk__icon">⏱</span>
+                <span class="walk__value">250</span>
+                <span class="walk__unit">min</span>
+              </div>
+              <div class="walk__details">
+                <span class="walk__thoughts">Thoughts</span>
+              </div>
+            </li> -->
+          </ul>
+        </div>
+        <div id="mapid"></div>
+      </div>
+    </div>
+  </body>
+</html>

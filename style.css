@@ -1,0 +1,163 @@
+@import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Permanent+Marker&family=Josefin+Sans&family=Yanone+Kaffeesatz&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
+  font-family: 'Josefin Sans', sans-serif;
+  box-sizing: border-box;
+}
+
+h1 {
+  text-align: center;
+  font-family: 'Permanent Marker', sans-serif;
+  font-size: 3rem;
+  color: whitesmoke;
+}
+
+h2 {
+  text-align: center;
+  font-family: 'Permanent Marker', sans-serif;
+  font-size: 2.5rem;
+  color: whitesmoke;
+}
+
+input {
+  width: 30px;
+  padding: 5px;
+  border: none;
+  border-radius: 3px;
+}
+textarea {
+  width: 100%;
+  border: none;
+  border-radius: 3px;
+  padding: 5px;
+  resize: none;
+  outline: none;
+  font-family: 'Josefin Sans', sans-serif;
+  color: rgb(65, 65, 65);
+}
+textarea::placeholder {
+  /* font-family: 'Architects Daughter', sans-serif; */
+  font-size: 1.2rem;
+}
+
+select {
+  width: 100%;
+  font-family: inherit;
+  font-size: 1.5rem;
+  padding-top: 3px;
+  border: none;
+  border-radius: 3px;
+  transition: all 0.2s;
+}
+
+select:focus {
+  outline: none;
+  background-color: #fff;
+}
+
+.container {
+  background-color: rgb(41, 41, 41);
+  width: 97vw;
+  height: 95vh;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 5px;
+}
+
+.content {
+  /* border: 3px solid black; */
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  z-index: 10;
+}
+
+.leftmenu-container {
+  background-color: rgb(41, 41, 41);
+  border: 3px solid black;
+  height: 83vh;
+  width: 25vw;
+  overflow: auto;
+}
+
+.form {
+  background-color: rgb(41, 41, 41);
+  /* border: 1px solid white; */
+  display: flex;
+  flex-direction: column;
+  color: whitesmoke;
+  font-size: 1.5rem;
+  transition: all 0.3s;
+}
+
+.form.hidden {
+  opacity: 0;
+  transform: translateY(-30rem);
+}
+
+.form__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px;
+}
+
+.form__row--thoughts {
+  display: flex;
+}
+
+.walk-title {
+  font-size: 1.8rem;
+}
+
+.walk__details {
+  font-size: 1.2rem;
+}
+
+.walk {
+  background-color: rgb(41, 41, 41);
+  color: white;
+  list-style: none;
+  padding: 10px;
+  /* z-index: 1; */
+  /* font-size: 1.8rem; */
+}
+
+.walk:hover {
+  cursor: pointer;
+}
+
+.walk__container {
+  display: flex;
+  padding: 3px;
+  justify-content: space-between;
+}
+
+.walk__thoughts {
+  text-align: justify;
+}
+
+/* .form__btn {
+  opacity: 0;
+  transform: translateY(50rem);
+  height: 1px;
+} */
+
+#mapid {
+  background-color: gray;
+  /* border: 3px solid black; */
+  width: 70vw;
+  height: 83vh;
+  /* border-radius: 5px; */
+}
