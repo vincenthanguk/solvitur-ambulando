@@ -21,8 +21,7 @@ h1 {
 
 h2 {
   text-align: center;
-  font-family: 'Permanent Marker', sans-serif;
-  font-size: 2.5rem;
+  font-size: 1.8rem;
   color: whitesmoke;
 }
 
@@ -31,7 +30,9 @@ input {
   padding: 5px;
   border: none;
   border-radius: 3px;
+  font-size: 1.2rem;
 }
+
 textarea {
   width: 100%;
   border: none;
@@ -50,7 +51,7 @@ textarea::placeholder {
 select {
   width: 100%;
   font-family: inherit;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   padding-top: 3px;
   border: none;
   border-radius: 3px;
@@ -62,12 +63,49 @@ select:focus {
   background-color: #fff;
 }
 
+.title {
+  line-height: 2.75rem;
+  margin-top: 2rem;
+  text-align: center;
+  font-style: italic;
+}
+
+.highlight {
+  position: relative;
+  font-size: 2.5rem;
+}
+
+.highlight::after {
+  display: block;
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+  opacity: 0.7;
+  transform: scale(1.07, 1.05) skewX(-35deg);
+  background-image: linear-gradient(to right, rgb(0, 92, 0), rgb(156, 223, 0));
+}
+
+.josefin {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 1rem;
+  color: white;
+  opacity: 0.9;
+  margin-top: 2px;
+  font-style: italic;
+  text-align: center;
+  /* opacity: 70%; */
+}
+
 .container {
+  display: flex;
+  align-items: center;
   background-color: rgb(41, 41, 41);
   width: 97vw;
   height: 95vh;
-  display: flex;
-  flex-direction: column;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -85,10 +123,10 @@ select:focus {
 
 .leftmenu-container {
   background-color: rgb(41, 41, 41);
-  border: 3px solid black;
   height: 83vh;
   width: 25vw;
   overflow: auto;
+  z-index: -2;
 }
 
 .form {
@@ -97,8 +135,9 @@ select:focus {
   display: flex;
   flex-direction: column;
   color: whitesmoke;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   transition: all 0.3s;
+  margin: 10px 25px 0px 20px;
 }
 
 .form.hidden {
@@ -148,16 +187,49 @@ select:focus {
   text-align: justify;
 }
 
-/* .form__btn {
-  opacity: 0;
-  transform: translateY(50rem);
-  height: 1px;
-} */
+.form__btn {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background-color: rgb(0, 92, 0);
+  border-radius: 5px;
+  margin-left: 3px;
+  padding: 5px;
+}
+
+.form__btn:hover {
+  background-color: rgb(156, 223, 0);
+}
+
+.fas.fa-walking {
+  font-size: 2.5rem;
+  color: white;
+  opacity: 0.8;
+}
+
+.leaflet-popup .leaflet-popup-content-wrapper {
+  background-color: rgb(41, 41, 41);
+  color: whitesmoke;
+  border-radius: 5px;
+  /* padding-right: 0.3rem; */
+}
+
+.leaflet-popup .leaflet-popup-content {
+  font-size: 1.2rem;
+}
+
+.leaflet-popup .leaflet-popup-tip {
+  background-color: rgb(156, 223, 0);
+}
+
+.leaflet-popup .leaflet-popup-content-wrapper {
+  border-left: 5px solid rgb(156, 223, 0);
+}
 
 #mapid {
   background-color: gray;
   /* border: 3px solid black; */
   width: 70vw;
-  height: 83vh;
+  height: 93vh;
   /* border-radius: 5px; */
 }

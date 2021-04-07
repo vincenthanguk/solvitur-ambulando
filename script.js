@@ -13,16 +13,17 @@ const months = ["January", "February", "March", "April", "May", "June", "July", 
 class Walk {
   date = new Date();
   id = Date.now() + ''.slice(-10);
+  steps;
   description;
 
-  constructor(type, coords, distance, duration, thoughts, description) {
+  constructor(type, coords, distance, duration, thoughts) {
     this.type = type; //string
     this.coords = coords; // [lat,lng]
     this.distance = distance; // in km
     this.duration = duration; // in min
     this.thoughts = thoughts; //string
-    this.description = description;
     this._setDescription();
+    this._calculateSteps(this.distance);
   }
 
   _setDescription() {
@@ -30,6 +31,11 @@ class Walk {
       months[this.date.getMonth()]
     } ${this.date.getDay()}`;
     console.log(this.description);
+  }
+
+  _calculateSteps(distance) {
+    this.steps = +distance * 1312;
+    console.log(this.steps);
   }
 }
 
@@ -159,7 +165,7 @@ class App {
               </div>
                  <div class="walk__details">
                 <span class="walk__icon">🥾</span>
-                <span class="walk__value">100</span>
+                <span class="walk__value">${walk.steps}</span>
                 <span class="walk__unit">Steps</span>
               </div>
               <div class="walk__details">
@@ -168,9 +174,13 @@ class App {
                 <span class="walk__unit">min</span>
               </div>
               </div>
-              <div class="walk__details">
+             ${
+               walk.thoughts
+                 ? `<div class="walk__details">
                 <span class="walk__thoughts">Thoughts: <i>"${walk.thoughts}"</i></span>
-              </div>
+              </div>`
+                 : ''
+             }
             </li>`;
 
     walksList.insertAdjacentHTML('afterbegin', html);
@@ -185,10 +195,14 @@ class App {
           minWidth: 100,
           autoClose: false,
           closeOnClick: false,
-          className: 'running-popup',
+          className: 'popup',
         })
       )
-      .setPopupContent(`${walk.description}<br><i>"${walk.thoughts}</i>"`)
+      .setPopupContent(
+        `${walk.description}${
+          walk.thoughts ? `<br><i>"${walk.thoughts}</i>"` : ''
+        }`
+      )
       .openPopup();
   }
 
@@ -208,7 +222,3 @@ class App {
 }
 
 const app = new App();
-
-// retrieve  geolocation coordinates & initite map
-
-// /////////////////////////////////////////////////////////////////////////////////

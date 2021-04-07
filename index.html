@@ -7,9 +7,9 @@
     <title>Solvitur Ambulando - It is solved by walking</title>
     <link
       rel="stylesheet"
-      href="style.css
-	"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
     />
+    <link rel="stylesheet" href="style.css" />
     <script defer src="script.js"></script>
     <link
       rel="stylesheet"
@@ -19,48 +19,57 @@
   </head>
   <body>
     <div class="container">
-      <h1>Solvitur Ambulando - It is Solved by Walking</h1>
       <div class="content">
         <div class="leftmenu-container">
-          
-            <form class="form hidden">
-              <div class="form__row--select">
-                <select class="form__input form__input--type">
-                  <option value="" disabled selected hidden>
-                    Choose the Type of Walk
-                  </option>
-                  <option value="Walking Meditation">Walking Meditation</option>
-                  <option value="Stroll">Stroll</option>
-                  <option value="Regular Walk">Regular Walk</option>
-                  <option value="Brisk Walk">Brisk Walk</option>
-                  <option value="Fierce March">Fierce March</option>
-                </select>
-              </div>
-              <div class="form__row">
-                <label class="form__label">Distance:</label>
-                <input
-                  class="form__input form__input--distance"
-                  placeholder="km"
-                />
-                <label class="form__label">Duration:</label>
-                <input
-                  class="form__input form__input--duration"
-                  placeholder="min"
-                />
-              </div>
-              <div class="form__row--thoughts">
-                <textarea
-                  class="form__input form__input--thoughts"
-                  maxlength="150"
-                  placeholder="What was going through your mind during your walk?"
-                  rows="3"
-                ></textarea>
-                <button class="form__btn">OK</button>
-              </div>
-            </form>
-            <ul class="walks"></ul>
+          <div class="title">
+            <h1>
+              <span class="highlight">Solvitur</span><br /><span
+                class="highlight"
+                >Ambulando</span
+              >
+            </h1>
+          </div>
+          <div class="josefin">It is Solved by Walking</div>
+          <form class="form hidden">
+            <div class="form__row--select">
+              <select class="form__input form__input--type">
+                <option value="" disabled selected hidden>
+                  Choose the Type of Walk
+                </option>
+                <option value="Walking Meditation">Walking Meditation</option>
+                <option value="Stroll">Stroll</option>
+                <option value="Regular Walk">Regular Walk</option>
+                <option value="Brisk Walk">Brisk Walk</option>
+                <option value="Fierce March">Fierce March</option>
+              </select>
+            </div>
+            <div class="form__row">
+              <label class="form__label">Distance:</label>
+              <input
+                class="form__input form__input--distance"
+                placeholder="km"
+              />
+              <label class="form__label">Duration:</label>
+              <input
+                class="form__input form__input--duration"
+                placeholder="min"
+              />
+            </div>
+            <div class="form__row--thoughts">
+              <textarea
+                class="form__input form__input--thoughts"
+                maxlength="150"
+                placeholder="What was going through your mind during your walk?"
+                rows="3"
+              ></textarea>
+              <button class="form__btn"><i class="fas fa-walking"></i></button>
+            </div>
+          </form>
+          <ul class="walks">
             <!-- <li class="walk" data-id="1234567890">
-              <h2 class="walk-title">Walk on Date</h2>
+              <h2 class="walk-title">
+                <span class="highlight">Walk on Date</span>
+              </h2>
               <div class="walk__details">
                 <span class="walk__icon">🥾</span>
                 <span class="walk__value">10</span>
