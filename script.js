@@ -45,9 +45,11 @@ class Walk {
     console.log(compareResult);
 
     if (compareResult === 'Today' || compareResult === 'Yesterday') {
-      this.description = `${compareResult}'s ${this.type ? this.type : 'Walk'}`;
+      this.description = `${compareResult}'s ${
+        this.type !== 'default' ? this.type : 'Walk'
+      }`;
     } else {
-      this.description = `${this.type ? this.type : 'Walk'} on ${
+      this.description = `${this.type !== 'default' ? this.type : 'Walk'} on ${
         months[month]
       } ${day}${compareResult ? compareResult : ''}`;
     }
@@ -70,12 +72,10 @@ class App {
     form.addEventListener('submit', this._newWalk.bind(this));
     this._getLocalStorage();
     walksList.addEventListener('click', this._moveToPopup.bind(this));
-    document.body.addEventListener('click', this._deleteWalk.bind(this));
+    walksList.addEventListener('click', this._deleteWalk.bind(this));
   }
 
   _getLocalStorage() {
-    // const data = JSON.parse(localStorage.getItem('walk'));
-    // console.log(data);
     let data = [];
     for (let i = 0; i < localStorage.length; i++) {
       data.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
@@ -135,6 +135,13 @@ class App {
     inputDistance.focus();
   }
 
+  _resetSelectEl(selectEl, value) {
+    for (let i = 0; i < selectEl.options.length; i++) {
+      if (selectEl.options[i].value === value)
+        selectEl.options[i].selected = true;
+    }
+  }
+
   _newWalk(e) {
     const validInputs = (...inputs) =>
       inputs.every(inp => Number.isFinite(inp));
@@ -171,14 +178,15 @@ class App {
     // hide form
     this._hideForm();
 
+    // put select menu to default
+    this._resetSelectEl(inputType, 'default');
+
     // save to local storage
     localStorage.setItem(
       walkID,
       JSON.stringify(this.#walks[this.#walks.length - 1])
     );
   }
-
-  // _setLocalStorage() {}
 
   _renderWorkout(walk) {
     const id = walk.id;
@@ -242,12 +250,11 @@ class App {
         `${walk.description}${
           walk.thoughts ? `<br><i>"${walk.thoughts}</i>"` : ''
         }`
-      )
-      .openPopup();
+      );
 
     this.#map.addLayer(marker);
+    marker.openPopup();
     this.#markers.push(marker);
-
     console.log(this.#markers);
     // L.marker(walk.coords)
     //   .addTo(this.#map)
@@ -280,16 +287,19 @@ class App {
 
   _moveToPopup(e) {
     const walkEl = e.target.closest('.walk');
+    console.log(e.target);
     if (!walkEl) return;
 
     const workout = this.#walks.find(work => work.id === walkEl.dataset.id);
     console.log(walkEl);
-    // console.log(workout);
+    console.log('this should not fire when deleting');
     this.#map.setView(workout.coords);
   }
 
   _deleteWalk(e) {
+    e.stopImmediatePropagation();
     const walkEl = e.target.closest('.delete__walk');
+    console.log(e.target);
     if (!walkEl) return;
 
     console.log(walkEl);
