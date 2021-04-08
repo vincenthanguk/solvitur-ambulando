@@ -187,6 +187,11 @@ select:focus {
   text-align: justify;
 }
 
+.delete__walk {
+  font-size: 0.5rem;
+  opacity: 0.8;
+}
+
 .form__btn {
   cursor: pointer;
   border: none;
@@ -231,5 +236,5 @@ select:focus {
   /* border: 3px solid black; */
   width: 70vw;
   height: 93vh;
-  /* border-radius: 5px; */
+  border-radius: 3px;
 }

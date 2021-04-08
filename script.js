@@ -25,12 +25,32 @@ class Walk {
     this._setDescription();
     this._calculateSteps(this.distance);
   }
+  _compareDate(day, month, year) {
+    const curDate = new Date();
+    const curDay = curDate.getDate();
+    const curMonth = curDate.getMonth();
+    const curYear = curDate.getYear();
+    if (day === curDay && month === curMonth && year === curYear)
+      return 'Today';
+    if (day === curDay - 1 && month === curMonth && year === curYear)
+      return 'Yesterday';
+  }
 
   _setDescription() {
-    this.description = `${this.type ? this.type : 'Walk'} on ${
-      months[this.date.getMonth()]
-    } ${this.date.getDay()}`;
-    console.log(this.description);
+    // const day = this.date.getDate();
+    const day = this.date.getDate();
+    const month = this.date.getMonth();
+    const year = this.date.getYear();
+    const compareResult = this._compareDate(day, month, year);
+    console.log(compareResult);
+
+    if (compareResult === 'Today' || compareResult === 'Yesterday') {
+      this.description = `${compareResult}'s ${this.type ? this.type : 'Walk'}`;
+    } else {
+      this.description = `${this.type ? this.type : 'Walk'} on ${
+        months[month]
+      } ${day}${compareResult ? compareResult : ''}`;
+    }
   }
 
   _calculateSteps(distance) {
@@ -49,12 +69,16 @@ class App {
     form.addEventListener('submit', this._newWalk.bind(this));
     this._getLocalStorage();
     walksList.addEventListener('click', this._moveToPopup.bind(this));
+    document.body.addEventListener('click', this._deleteWalk.bind(this));
   }
 
   _getLocalStorage() {
-    const data = JSON.parse(localStorage.getItem('walk'));
-    console.log(data);
-
+    // const data = JSON.parse(localStorage.getItem('walk'));
+    // console.log(data);
+    let data = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      data.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
+    }
     if (!data) return;
 
     this.#walks = data;
@@ -124,13 +148,14 @@ class App {
     const thoughts = inputThoughts.value;
     const { lat, lng } = this.#mapEvent.latlng;
     let walk;
+    let walkID;
 
     if (!validInputs(distance, duration) || !allPositive(distance, duration))
       return alert('Input must be a positive Number!');
 
     // create walk object
     walk = new Walk(type, [lat, lng], distance, duration, thoughts);
-
+    walkID = walk.id;
     // Add new object to walks array
     this.#walks.push(walk);
     console.log(this.#walks);
@@ -147,15 +172,19 @@ class App {
     this._hideForm();
 
     // save to local storage
-    localStorage.setItem('walk', JSON.stringify(this.#walks));
+    localStorage.setItem(
+      walkID,
+      JSON.stringify(this.#walks[this.#walks.length - 1])
+    );
   }
 
   // _setLocalStorage() {}
 
   _renderWorkout(walk) {
+    const id = walk.id;
     // insert markup into html
     const html = `
-      <li class="walk" data-id="${walk.id}">
+      <li class="walk" data-id="${id}">
               <h2 class="walk-title">${walk.description}</h2>
               <div class="walk__container">
               <div class="walk__details">
@@ -172,6 +201,8 @@ class App {
                 <span class="walk__icon">⏱</span>
                 <span class="walk__value">${walk.duration}</span>
                 <span class="walk__unit">min</span>
+              </div>
+              <div class="walk__details delete__walk" data-id="${id}">❌</div>
               </div>
               </div>
              ${
@@ -211,13 +242,34 @@ class App {
   }
 
   _moveToPopup(e) {
-    const workoutEl = e.target.closest('.walk');
-    if (!workoutEl) return;
+    const walkEl = e.target.closest('.walk');
+    if (!walkEl) return;
 
-    const workout = this.#walks.find(work => work.id === workoutEl.dataset.id);
-    console.log(workoutEl);
-    console.log(workout);
+    const workout = this.#walks.find(work => work.id === walkEl.dataset.id);
+    // console.log(walkEl);
+    // console.log(workout);
     this.#map.setView(workout.coords);
+  }
+
+  _deleteWalk(e) {
+    const walkEl = e.target.closest('.delete__walk');
+    if (!walkEl) return;
+
+    console.log(walkEl);
+    const workoutIndex = this.#walks.findIndex(
+      walk => walk.id === walkEl.dataset.id
+    );
+    console.log(workoutIndex, 'this workout shall be removed');
+
+    // REMOVE WORKOUT FROM #walks array + localstorage
+    this.#walks.splice(workoutIndex, 1);
+    console.log(this.#walks);
+
+    // re-Render menu
+    // INIT
+
+    // re-Render marker
+    this._getPosition();
   }
 }
 
