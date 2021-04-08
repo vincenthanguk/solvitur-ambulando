@@ -62,6 +62,7 @@ class Walk {
 class App {
   #map;
   #mapEvent;
+  #markers = [];
   #walks = [];
 
   constructor() {
@@ -99,7 +100,6 @@ class App {
     const { latitude } = position.coords;
     const { longitude } = position.coords;
     const coords = [latitude, longitude];
-    console.log(this);
     this.#map = L.map('mapid').setView(coords, 14);
     console.log(this.#map);
 
@@ -218,8 +218,16 @@ class App {
   }
 
   _renderWorkoutMarker(walk) {
-    L.marker(walk.coords)
-      .addTo(this.#map)
+    let marker;
+
+    // if (this.#markers.length < 1) id = '0';
+    // else id = toString(this.#markers.length + 1);
+
+    // const popupContent = `${walk.description}${
+    //   walk.thoughts ? `<br><i>"${walk.thoughts}</i>"` : ''
+    // }`;
+
+    marker = L.marker(walk.coords)
       .bindPopup(
         L.popup({
           maxWidth: 250,
@@ -229,12 +237,41 @@ class App {
           className: 'popup',
         })
       )
+      // BUG
       .setPopupContent(
         `${walk.description}${
           walk.thoughts ? `<br><i>"${walk.thoughts}</i>"` : ''
         }`
       )
       .openPopup();
+
+    this.#map.addLayer(marker);
+    this.#markers.push(marker);
+
+    console.log(this.#markers);
+    // L.marker(walk.coords)
+    //   .addTo(this.#map)
+    //   .bindPopup(
+    //     L.popup({
+    //       maxWidth: 250,
+    //       minWidth: 100,
+    //       autoClose: false,
+    //       closeOnClick: false,
+    //       className: 'popup',
+    //     })
+    //   )
+    //   .setPopupContent(
+    //     `${walk.description}${
+    //       walk.thoughts ? `<br><i>"${walk.thoughts}</i>"` : ''
+    //     }`
+    //   )
+    //   .openPopup();
+  }
+
+  _clearMarkers() {
+    const new_markers = [];
+    this.#markers.forEach(marker => this.#map.removeLayer(marker));
+    this.#markers = new_markers;
   }
 
   _hideForm() {
@@ -246,7 +283,7 @@ class App {
     if (!walkEl) return;
 
     const workout = this.#walks.find(work => work.id === walkEl.dataset.id);
-    // console.log(walkEl);
+    console.log(walkEl);
     // console.log(workout);
     this.#map.setView(workout.coords);
   }
@@ -261,15 +298,21 @@ class App {
     );
     console.log(workoutIndex, 'this workout shall be removed');
 
-    // REMOVE WORKOUT FROM #walks array + localstorage
+    // REMOVE WORKOUT FROM #walks array
     this.#walks.splice(workoutIndex, 1);
     console.log(this.#walks);
+    // Remove Walk from localstorage
+    localStorage.removeItem(walkEl.dataset.id);
+
+    // remove walks
+    walksList.innerHTML = '';
+    // remove markers
+    this._clearMarkers();
 
     // re-Render menu
-    // INIT
-
+    this.#walks.forEach(walk => this._renderWorkout(walk));
     // re-Render marker
-    this._getPosition();
+    this.#walks.forEach(walk => this._renderWorkoutMarker(walk));
   }
 }
 
