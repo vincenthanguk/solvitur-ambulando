@@ -7,6 +7,8 @@ const inputDuration = document.querySelector('.form__input--duration');
 const inputThoughts = document.querySelector('.form__input--thoughts');
 const walksList = document.querySelector('.walks');
 
+const stepCounter = document.querySelector('.stepcounter');
+
 // prettier-ignore
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
@@ -42,7 +44,6 @@ class Walk {
     const month = this.date.getMonth();
     const year = this.date.getYear();
     const compareResult = this._compareDate(day, month, year);
-    console.log(compareResult);
 
     if (compareResult === 'Today' || compareResult === 'Yesterday') {
       this.description = `${compareResult}'s ${
@@ -57,7 +58,6 @@ class Walk {
 
   _calculateSteps(distance) {
     this.steps = +distance * 1312;
-    console.log(this.steps);
   }
 }
 
@@ -66,6 +66,7 @@ class App {
   #mapEvent;
   #markers = [];
   #walks = [];
+  #totalSteps = 0;
 
   constructor() {
     this._getPosition();
@@ -83,7 +84,10 @@ class App {
     if (!data) return;
 
     this.#walks = data;
-    this.#walks.forEach(walk => this._renderWorkout(walk));
+    this.#walks.forEach(walk => this._renderWalk(walk));
+
+    this._calculateTotalSteps();
+    this._renderSteps();
   }
 
   _getPosition() {
@@ -101,7 +105,6 @@ class App {
     const { longitude } = position.coords;
     const coords = [latitude, longitude];
     this.#map = L.map('mapid').setView(coords, 14);
-    console.log(this.#map);
 
     L.tileLayer(
       'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}',
@@ -125,8 +128,7 @@ class App {
     }).addTo(this.#map);
 
     this.#map.on('click', this._showForm.bind(this));
-
-    this.#walks.forEach(walk => this._renderWorkoutMarker(walk));
+    this.#walks.forEach(walk => this._renderWalkMarker(walk));
   }
 
   _showForm(mapE) {
@@ -167,11 +169,17 @@ class App {
     this.#walks.push(walk);
     console.log(this.#walks);
 
-    // render workout on map as marker
-    this._renderWorkoutMarker(walk);
+    // render walk on map as marker
+    this._renderWalkMarker(walk);
 
     // render walk on menu
-    this._renderWorkout(walk);
+    this._renderWalk(walk);
+
+    // TODO: render total steps
+    // this.#totalSteps += walk.steps;
+    this._calculateTotalSteps();
+    this._renderSteps();
+
     //   Clear inputs
     inputDistance.value = inputDuration.value = inputThoughts.value = '';
 
@@ -188,7 +196,7 @@ class App {
     );
   }
 
-  _renderWorkout(walk) {
+  _renderWalk(walk) {
     const id = walk.id;
     // insert markup into html
     const html = `
@@ -225,15 +233,24 @@ class App {
     walksList.insertAdjacentHTML('afterbegin', html);
   }
 
-  _renderWorkoutMarker(walk) {
+  _renderSteps() {
+    const steps = this.#totalSteps;
+    // clear content
+    stepCounter.innerHTML = '';
+    // markup
+    const html = `Total Steps: ${steps}`;
+
+    stepCounter.insertAdjacentText('afterbegin', html);
+  }
+
+  _calculateTotalSteps() {
+    this.#totalSteps = 0;
+    this.#walks.forEach(walk => (this.#totalSteps += walk.steps));
+    console.log(this.#totalSteps);
+  }
+
+  _renderWalkMarker(walk) {
     let marker;
-
-    // if (this.#markers.length < 1) id = '0';
-    // else id = toString(this.#markers.length + 1);
-
-    // const popupContent = `${walk.description}${
-    //   walk.thoughts ? `<br><i>"${walk.thoughts}</i>"` : ''
-    // }`;
 
     marker = L.marker(walk.coords)
       .bindPopup(
@@ -245,7 +262,6 @@ class App {
           className: 'popup',
         })
       )
-      // BUG
       .setPopupContent(
         `${walk.description}${
           walk.thoughts ? `<br><i>"${walk.thoughts}</i>"` : ''
@@ -255,24 +271,6 @@ class App {
     this.#map.addLayer(marker);
     marker.openPopup();
     this.#markers.push(marker);
-    console.log(this.#markers);
-    // L.marker(walk.coords)
-    //   .addTo(this.#map)
-    //   .bindPopup(
-    //     L.popup({
-    //       maxWidth: 250,
-    //       minWidth: 100,
-    //       autoClose: false,
-    //       closeOnClick: false,
-    //       className: 'popup',
-    //     })
-    //   )
-    //   .setPopupContent(
-    //     `${walk.description}${
-    //       walk.thoughts ? `<br><i>"${walk.thoughts}</i>"` : ''
-    //     }`
-    //   )
-    //   .openPopup();
   }
 
   _clearMarkers() {
@@ -290,27 +288,27 @@ class App {
     console.log(e.target);
     if (!walkEl) return;
 
-    const workout = this.#walks.find(work => work.id === walkEl.dataset.id);
+    const walk = this.#walks.find(walk => walk.id === walkEl.dataset.id);
     console.log(walkEl);
     console.log('this should not fire when deleting');
-    this.#map.setView(workout.coords);
+    this.#map.setView(walk.coords);
   }
 
   _deleteWalk(e) {
+    // FIXME: event triggers both eventListneners, should only trigger _deleteWalk()
     e.stopImmediatePropagation();
     const walkEl = e.target.closest('.delete__walk');
     console.log(e.target);
     if (!walkEl) return;
 
     console.log(walkEl);
-    const workoutIndex = this.#walks.findIndex(
+    const walkIndex = this.#walks.findIndex(
       walk => walk.id === walkEl.dataset.id
     );
-    console.log(workoutIndex, 'this workout shall be removed');
+    console.log(walkIndex, 'this walk shall be removed');
 
-    // REMOVE WORKOUT FROM #walks array
-    this.#walks.splice(workoutIndex, 1);
-    console.log(this.#walks);
+    // REMOVE WALK FROM #walks array
+    this.#walks.splice(walkIndex, 1);
     // Remove Walk from localstorage
     localStorage.removeItem(walkEl.dataset.id);
 
@@ -319,11 +317,17 @@ class App {
     // remove markers
     this._clearMarkers();
 
+    // calculate steps from total and re-render
+    this._calculateTotalSteps();
+    this._renderSteps();
+
     // re-Render menu
-    this.#walks.forEach(walk => this._renderWorkout(walk));
+    this.#walks.forEach(walk => this._renderWalk(walk));
     // re-Render marker
-    this.#walks.forEach(walk => this._renderWorkoutMarker(walk));
+    this.#walks.forEach(walk => this._renderWalkMarker(walk));
   }
 }
 
 const app = new App();
+
+// TODO: Step Counter 10 000

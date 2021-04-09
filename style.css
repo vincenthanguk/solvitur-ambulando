@@ -231,6 +231,15 @@ select:focus {
   border-left: 5px solid rgb(156, 223, 0);
 }
 
+.stepcounter {
+  position: absolute;
+  bottom: 0px;
+  margin-left: 8rem;
+  margin-bottom: 15px;
+  color: white;
+  opacity: 0.8;
+}
+
 #mapid {
   background-color: gray;
   /* border: 3px solid black; */
