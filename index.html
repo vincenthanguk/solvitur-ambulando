@@ -4,12 +4,15 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Title and Favicon -->
     <title>Solvitur Ambulando - It is solved by walking</title>
+    <link rel="shortcut icon" type="image/jpg" href="images/favicon_V.png" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
     />
     <link rel="stylesheet" href="style.css" />
+    <!-- Script -->
     <script defer src="script.js"></script>
     <link
       rel="stylesheet"
@@ -17,6 +20,7 @@
     />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
   </head>
+  <!-- Body -->
   <body>
     <div class="container">
       <div class="content">
@@ -66,29 +70,50 @@
             </div>
           </form>
           <ul class="walks">
-            <!-- <li class="walk" data-id="1234567890">
-              <h2 class="walk-title">
-                <span class="highlight">Walk on Date</span>
-              </h2>
-              <div class="walk__details">
-                <span class="walk__icon">🥾</span>
-                <span class="walk__value">10</span>
-                <span class="walk__unit">km</span>
-              </div>
-              <div class="walk__details">
-                <span class="walk__icon">⏱</span>
-                <span class="walk__value">250</span>
-                <span class="walk__unit">min</span>
-              </div>
-              <div class="walk__details">
-                <span class="walk__thoughts">Thoughts</span>
-              </div>
-            </li> -->
+            <!-- Walks Markup dynamically inserted here  -->
           </ul>
           <div class="stepcounter"></div>
+          <div class="help"><i class="far fa-question-circle"></i></div>
         </div>
         <div id="mapid"></div>
       </div>
     </div>
+    <!-- Help Modal -->
+    <div class="modal hidden">
+      <button class="btn__close-modal">❌</button>
+      <h2>What is Solvitur Ambulando?</h2>
+      <p>
+        Solvitur Ambulando is a mindfulness application that allows you to log
+        your personal walking journey.
+      </p>
+      <p>
+        To get started journaling your walks, make sure to activate your
+        browser's location services. Then simply click on the map, choose the
+        type of walk and enter your walking distance and duration. Solvitur
+        Ambulando will then calculate an approximate step-count and store the
+        data in your browser.
+      </p>
+      <p>
+        It is scientifically proven that walking soothes the mind and helps you
+        come up with great ideas. In order to aid this process, you may quickly
+        jot down some thoughts that crossed your mind before, during, or after
+        the walk. What is worrying you? What are you thankful for? What amazing
+        thing have you experienced on your daily stroll? What's the meaning of
+        life, anyways?
+      </p>
+      <p>
+        With Solvitur Ambulando you can check at a glance, which parts of your
+        neighborhood you have already explored and the built-in journaling
+        function allows you to re-experience the awesome memories and profound
+        insights you have encountered along the way.
+      </p>
+      <p>
+        What are you waiting for? Get out there, explore the world - and
+        yourself! With Solvitur Ambulando!
+      </p>
+      <p id="signature">-made by Vincent</p>
+    </div>
+    <!-- Help Overlay -->
+    <div class="overlay hidden"></div>
   </body>
 </html>

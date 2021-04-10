@@ -6,6 +6,10 @@ const inputDistance = document.querySelector('.form__input--distance');
 const inputDuration = document.querySelector('.form__input--duration');
 const inputThoughts = document.querySelector('.form__input--thoughts');
 const walksList = document.querySelector('.walks');
+const helpBtn = document.querySelector('.help');
+const closeModalBtn = document.querySelector('.btn__close-modal');
+const overlay = document.querySelector('.overlay');
+const modal = document.querySelector('.modal');
 
 const stepCounter = document.querySelector('.stepcounter');
 
@@ -72,8 +76,13 @@ class App {
     this._getPosition();
     form.addEventListener('submit', this._newWalk.bind(this));
     this._getLocalStorage();
+    // event handlers
     walksList.addEventListener('click', this._deleteWalk.bind(this));
     walksList.addEventListener('click', this._moveToPopup.bind(this));
+    helpBtn.addEventListener('click', this._openModal.bind(this));
+    closeModalBtn.addEventListener('click', this._closeModal.bind(this));
+    overlay.addEventListener('click', this._closeModal.bind(this));
+    document.addEventListener('keydown', this._closeModalDocument.bind(this));
   }
 
   _getLocalStorage() {
@@ -167,7 +176,6 @@ class App {
     walkID = walk.id;
     // Add new object to walks array
     this.#walks.push(walk);
-    console.log(this.#walks);
 
     // render walk on map as marker
     this._renderWalkMarker(walk);
@@ -244,7 +252,6 @@ class App {
   _calculateTotalSteps() {
     this.#totalSteps = 0;
     this.#walks.forEach(walk => (this.#totalSteps += walk.steps));
-    console.log(this.#totalSteps);
   }
 
   _renderWalkMarker(walk) {
@@ -316,6 +323,23 @@ class App {
     this.#walks.forEach(walk => this._renderWalk(walk));
     // re-Render marker
     this.#walks.forEach(walk => this._renderWalkMarker(walk));
+  }
+
+  _toggleHelp() {
+    console.log('help button clicked');
+  }
+
+  _openModal() {
+    modal.classList.remove('hidden');
+    overlay.classList.remove('hidden');
+  }
+  _closeModal() {
+    modal.classList.add('hidden');
+    overlay.classList.add('hidden');
+  }
+  _closeModalDocument(e) {
+    if (e.key === 'Escape' && !modal.classList.contains('hidden'))
+      this._closeModal();
   }
 }
 
