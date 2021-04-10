@@ -72,8 +72,8 @@ class App {
     this._getPosition();
     form.addEventListener('submit', this._newWalk.bind(this));
     this._getLocalStorage();
-    walksList.addEventListener('click', this._moveToPopup.bind(this));
     walksList.addEventListener('click', this._deleteWalk.bind(this));
+    walksList.addEventListener('click', this._moveToPopup.bind(this));
   }
 
   _getLocalStorage() {
@@ -175,8 +175,6 @@ class App {
     // render walk on menu
     this._renderWalk(walk);
 
-    // TODO: render total steps
-    // this.#totalSteps += walk.steps;
     this._calculateTotalSteps();
     this._renderSteps();
 
@@ -287,25 +285,18 @@ class App {
     const walkEl = e.target.closest('.walk');
     console.log(e.target);
     if (!walkEl) return;
-
     const walk = this.#walks.find(walk => walk.id === walkEl.dataset.id);
-    console.log(walkEl);
-    console.log('this should not fire when deleting');
+    // prevents screen from moving after walk is deleted
+    if (!walk) return;
     this.#map.setView(walk.coords);
   }
 
   _deleteWalk(e) {
-    // FIXME: event triggers both eventListneners, should only trigger _deleteWalk()
-    e.stopImmediatePropagation();
     const walkEl = e.target.closest('.delete__walk');
-    console.log(e.target);
     if (!walkEl) return;
-
-    console.log(walkEl);
     const walkIndex = this.#walks.findIndex(
       walk => walk.id === walkEl.dataset.id
     );
-    console.log(walkIndex, 'this walk shall be removed');
 
     // REMOVE WALK FROM #walks array
     this.#walks.splice(walkIndex, 1);
@@ -330,4 +321,4 @@ class App {
 
 const app = new App();
 
-// TODO: Step Counter 10 000
+// TODO: Greeting/Explanation
