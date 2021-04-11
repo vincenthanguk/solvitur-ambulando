@@ -21,6 +21,9 @@ class Walk {
   id = Date.now() + ''.slice(-10);
   steps;
   description;
+  day = this.date.getDate();
+  month = this.date.getMonth();
+  year = this.date.getYear();
 
   constructor(type, coords, distance, duration, thoughts) {
     this.type = type; //string
@@ -43,11 +46,7 @@ class Walk {
   }
 
   _setDescription() {
-    // const day = this.date.getDate();
-    const day = this.date.getDate();
-    const month = this.date.getMonth();
-    const year = this.date.getYear();
-    const compareResult = this._compareDate(day, month, year);
+    const compareResult = this._compareDate(this.day, this.month, this.year);
 
     if (compareResult === 'Today' || compareResult === 'Yesterday') {
       this.description = `${compareResult}'s ${
@@ -55,8 +54,8 @@ class Walk {
       }`;
     } else {
       this.description = `${this.type !== 'default' ? this.type : 'Walk'} on ${
-        months[month]
-      } ${day}${compareResult ? compareResult : ''}`;
+        months[this.month]
+      } ${this.day}${compareResult ? compareResult : ''}`;
     }
   }
 
@@ -93,10 +92,37 @@ class App {
     if (!data) return;
 
     this.#walks = data;
-    this.#walks.forEach(walk => this._renderWalk(walk));
+    this.#walks.forEach(walk => {
+      this._updateDescription(walk);
+      this._renderWalk(walk);
+    });
 
     this._calculateTotalSteps();
     this._renderSteps();
+  }
+  _updateDescription(walk) {
+    const compareResult = this._compareDate(walk.day, walk.month, walk.year);
+
+    if (compareResult === 'Today' || compareResult === 'Yesterday') {
+      walk.description = `${compareResult}'s ${
+        walk.type !== 'default' ? walk.type : 'Walk'
+      }`;
+    } else {
+      walk.description = `${walk.type !== 'default' ? walk.type : 'Walk'} on ${
+        months[walk.month]
+      } ${walk.day}${compareResult ? compareResult : ''}`;
+    }
+  }
+
+  _compareDate(day, month, year) {
+    const curDate = new Date();
+    const curDay = curDate.getDate();
+    const curMonth = curDate.getMonth();
+    const curYear = curDate.getYear();
+    if (day === curDay && month === curMonth && year === curYear)
+      return 'Today';
+    if (day === curDay - 1 && month === curMonth && year === curYear)
+      return 'Yesterday';
   }
 
   _getPosition() {
