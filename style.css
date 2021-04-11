@@ -323,3 +323,21 @@ select:focus {
   cursor: pointer;
   transform: scale(1.5);
 }
+
+.thumbnail {
+  display: block;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 20px;
+}
+/* TODO: implement enlarging thumbnail */
+/* .thumbnail:hover {
+  position: relative;
+  /* top: -25px; */
+/* left: -35px; */
+/* width: 100vw; */
+/* height: auto; */
+/* display: block; */
+/* z-index: 999; */
+/* } */
