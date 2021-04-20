@@ -1,3 +1,6 @@
 .env
 .prettierrc
 node_modules/
+dist/
+.parcel-cache/
+.vscode/
