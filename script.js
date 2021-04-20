@@ -1,5 +1,7 @@
 'use strict';
 
+require('dotenv').config();
+
 const form = document.querySelector('.form');
 const inputType = document.querySelector('.form__input--type');
 const inputDistance = document.querySelector('.form__input--distance');
@@ -139,6 +141,8 @@ class App {
     const { latitude } = position.coords;
     const { longitude } = position.coords;
     const coords = [latitude, longitude];
+
+    const API_KEY = process.env.API_KEY;
     this.#map = L.map('mapid').setView(coords, 14);
 
     L.tileLayer(
@@ -150,8 +154,7 @@ class App {
         id: 'mapbox/streets-v11',
         tileSize: 512,
         zoomOffset: -1,
-        accessToken:
-          'pk.eyJ1IjoidmluY2VudGhhbmd1ayIsImEiOiJja24zbTgwamowYWVzMnZvMDZuZmRmdHI5In0.ZTgoo-P85rRrljnmO6WjmQ',
+        accessToken: API_KEY,
       }
     ).addTo(this.#map);
     // Circle indicating current location

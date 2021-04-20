@@ -1,0 +1,28 @@
+{
+  "name": "solvitur-ambulando",
+  "version": "1.0.0",
+  "description": "Log your walks",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vincenthanguk/solvitur-ambulando.git"
+  },
+  "keywords": [
+    "mindfulness",
+    "walking",
+    "meditation",
+    "journaling"
+  ],
+  "author": "Vincent Kreusel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vincenthanguk/solvitur-ambulando/issues"
+  },
+  "homepage": "https://solvitur-ambulando.netlify.app/",
+  "dependencies": {
+    "dotenv": "^8.2.0"
+  }
+}
